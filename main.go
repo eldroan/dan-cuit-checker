@@ -65,11 +65,9 @@ func noEncontradaHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	fmt.Println(situaciones)
-
 	router := mux.NewRouter()
 	router.HandleFunc("/api/cuit", getSituacionCuit).Methods("GET")
+	router.HandleFunc("/api/cuit/", getSituacionCuit).Methods("GET")
 	router.HandleFunc("/api/cuit/{cuit}", getSituacionCuit).Methods("GET")
 	router.NotFoundHandler = http.HandlerFunc(noEncontradaHandler)
 
@@ -78,5 +76,6 @@ func main() {
 		port = "8080"
 	}
 
+	fmt.Println("Ejecutando aplicación en el puerto " + port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
