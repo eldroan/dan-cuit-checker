@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -72,5 +73,10 @@ func main() {
 	router.HandleFunc("/api/cuit/{cuit}", getSituacionCuit).Methods("GET")
 	router.NotFoundHandler = http.HandlerFunc(noEncontradaHandler)
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	port, found := os.LookupEnv("PORT")
+	if !found {
+		port = "8080"
+	}
+
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
